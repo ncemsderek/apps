@@ -7,11 +7,13 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NCEMS">
 <meta name="theme-color" content="#1C3A1C">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
 <title>NCEMS Field Reference</title>
 <style>
   :root {
@@ -25,7 +27,7 @@
     --text-muted:#555;
     --border:   #C5DFC5;
     --white:    #ffffff;
-    --banner-h: 50px;
+    --banner-h: 38px;
     --tab-h:    62px;
     --hdr-h:    72px;
   }
@@ -68,7 +70,7 @@
   }
   .info-btn:active { background: rgba(255,255,255,0.3); }
 
-  /* CONTENT AREA */
+  /* CONTENT */
   .content {
     position: fixed;
     top: calc(var(--hdr-h) + env(safe-area-inset-top));
@@ -133,23 +135,18 @@
   .ops-sub   { font-size: 10px; color: rgba(255,255,255,0.8); margin-top: 6px; letter-spacing: .5px; }
   .ops-btn.wambo { background: linear-gradient(135deg, #1C3A1C 0%, #2E6B2E 100%); }
 
-  /* LOCK SCREEN (Operations tab when locked) */
-  .lock-screen {
-    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-    padding: 48px 24px 24px; text-align: center;
-  }
+  /* LOCK SCREEN */
+  .lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    padding: 48px 24px 24px; text-align: center; }
   .lock-icon { font-size: 52px; margin-bottom: 8px; }
-  .lock-title {
-    font-size: 18px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--g-deep); margin-bottom: 4px;
-  }
+  .lock-title { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--g-deep); margin-bottom: 4px; }
   .lock-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; letter-spacing: 1px; }
   .lock-input {
     width: 200px; max-width: 80%; padding: 16px; font-size: 34px; font-weight: 800;
     border: 2px solid var(--border); border-radius: 12px; text-align: center;
     font-family: 'SF Mono', ui-monospace, 'Menlo', monospace; color: var(--g-deep);
-    letter-spacing: 10px; outline: none; -webkit-appearance: none; appearance: none;
-    background: #fff;
+    letter-spacing: 10px; outline: none; -webkit-appearance: none; appearance: none; background: #fff;
   }
   .lock-input:focus { border-color: var(--g-accent); }
   .lock-input::-webkit-outer-spin-button, .lock-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
@@ -160,77 +157,92 @@
     font-size: 16px; font-weight: 800; letter-spacing: 2px; cursor: pointer;
   }
   .lock-btn:active { background: var(--g-mid); }
-  .lock-err {
-    margin-top: 14px; min-height: 18px; color: var(--bad);
-    font-size: 13px; font-weight: 700; letter-spacing: 1px;
-  }
+  .lock-err { margin-top: 14px; min-height: 18px; color: var(--bad);
+    font-size: 13px; font-weight: 700; letter-spacing: 1px; }
 
   /* BOTTOM TAB BAR */
   .tabbar {
     position: fixed;
     bottom: calc(var(--banner-h) + env(safe-area-inset-bottom));
     left: 0; right: 0; height: var(--tab-h);
-    background: var(--white);
-    border-top: 1px solid #d8e0d8;
-    display: flex; z-index: 28;
-    box-shadow: 0 -1px 6px rgba(0,0,0,.06);
+    background: var(--white); border-top: 1px solid #d8e0d8;
+    display: flex; z-index: 28; box-shadow: 0 -1px 6px rgba(0,0,0,.06);
   }
   .tab {
     flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 3px; cursor: pointer; border: none; background: none;
-    font-family: 'SF Mono', ui-monospace, 'Menlo', monospace;
-    color: #9aa79a;
+    font-family: 'SF Mono', ui-monospace, 'Menlo', monospace; color: #9aa79a;
   }
   .tab.active { color: var(--g-mid); }
   .tab-ico { font-size: 22px; line-height: 1; }
   .tab-lbl { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
   .tab-lock { font-size: 10px; }
 
-  /* NOTICE BANNER */
+  /* NOTICE BANNER — smaller, white, centered, tap to expand */
   .notice-bar {
     position: fixed; bottom: 0; left: 0; right: 0;
     height: calc(var(--banner-h) + env(safe-area-inset-bottom));
     padding-bottom: env(safe-area-inset-bottom);
     background: var(--g-deep); color: var(--white);
-    display: flex; align-items: center; gap: 10px;
-    padding-left: 14px; padding-right: 14px; z-index: 30;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding-left: 30px; padding-right: 30px; z-index: 30;
     box-shadow: 0 -2px 10px rgba(0,0,0,.25);
+    cursor: pointer;
   }
-  .notice-dot { width: 8px; height: 8px; border-radius: 50%;
+  .notice-dot { width: 7px; height: 7px; border-radius: 50%;
                 background: var(--g-accent); flex-shrink: 0;
                 animation: pulse 2.5s ease-in-out infinite; }
   .notice-dot.warn { background: var(--warn); }
   .notice-dot.off  { background: #444; animation: none; }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.65);} }
-  .notice-text { flex:1; font-size:13px; white-space:nowrap; overflow:hidden;
-                 text-overflow:ellipsis; opacity:.9; }
-  .notice-text.dim { opacity:.35; font-style:italic; }
-  .notice-time { font-size:10px; opacity:.45; flex-shrink:0; }
+  .notice-text { font-size:12px; white-space:nowrap; overflow:hidden;
+                 text-overflow:ellipsis; opacity:.95; color:#fff; text-align:center; max-width: 80%; }
+  .notice-text.dim { opacity:.4; font-style:italic; }
 
-  /* INFO MODAL */
-  .info-overlay {
+  /* NOTICE EXPANDED MODAL */
+  .notice-overlay {
     position: fixed; inset: 0; background: rgba(14,30,14,0.85);
     z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px;
   }
-  .info-overlay.show { display: flex; }
-  .info-card {
+  .notice-overlay.show { display: flex; }
+  .notice-card {
     background: #fff; border-radius: 16px; max-width: 420px; width: 100%;
     overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.4);
   }
-  .info-head {
+  .notice-card-head {
     background: linear-gradient(135deg, var(--g-deep) 0%, var(--g-mid) 100%);
-    color: #fff; padding: 22px 20px; text-align: center;
+    color: #fff; padding: 16px 20px; text-align: center;
+    font-size: 14px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
   }
-  .info-logo { width: 72px; height: 72px; border-radius: 50%; background: #fff;
-               object-fit: cover; margin-bottom: 10px; }
+  .notice-card-head.warn { background: linear-gradient(135deg, #946408 0%, var(--warn) 100%); }
+  .notice-card-body { padding: 24px 22px; text-align: center; font-size: 16px; line-height: 1.6; color: var(--text); }
+  .notice-card-body.dim { color: #999; font-style: italic; }
+  .notice-card-time { font-size: 11px; color: var(--text-muted); margin-top: 14px; letter-spacing: 1px; }
+  .notice-card-close {
+    display: block; width: calc(100% - 44px); margin: 0 22px 22px; padding: 14px;
+    background: #eee; color: var(--text); border: none; border-radius: 10px;
+    font-family: 'SF Mono', ui-monospace, 'Menlo', monospace;
+    font-size: 15px; font-weight: 800; letter-spacing: 2px; cursor: pointer;
+  }
+  .notice-card-close:active { background: #ddd; }
+
+  /* INFO MODAL */
+  .info-overlay { position: fixed; inset: 0; background: rgba(14,30,14,0.85);
+    z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; }
+  .info-overlay.show { display: flex; }
+  .info-card { background: #fff; border-radius: 16px; max-width: 420px; width: 100%;
+    overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
+  .info-head { background: linear-gradient(135deg, var(--g-deep) 0%, var(--g-mid) 100%);
+    color: #fff; padding: 22px 20px; text-align: center; }
+  .info-logo { width: 72px; height: 72px; border-radius: 50%; background: #fff; object-fit: cover; margin-bottom: 10px; }
   .info-head h2 { font-size: 16px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
   .info-body { padding: 22px 22px 8px; text-align: center; }
   .info-line { font-size: 15px; line-height: 1.6; color: var(--text); margin-bottom: 18px; }
   .info-email {
     display: inline-block; background: var(--g-pale); color: var(--g-deep);
     border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px;
-    font-size: 14px; font-weight: 800; text-decoration: none; letter-spacing: .5px;
-    word-break: break-all;
+    font-size: 14px; font-weight: 800; text-decoration: none; letter-spacing: .5px; word-break: break-all;
   }
   .info-email:active { background: #dceadc; }
   .info-close {
@@ -283,8 +295,6 @@
 
   <!-- OPERATIONS TAB -->
   <div class="tab-page" id="tab-ops">
-
-    <!-- locked view -->
     <div id="ops-lock">
       <div class="lock-screen">
         <div class="lock-icon">&#128274;</div>
@@ -296,8 +306,6 @@
         <div class="lock-err" id="lock-err"></div>
       </div>
     </div>
-
-    <!-- unlocked view -->
     <div id="ops-unlocked" style="display:none;">
       <div class="section-label">Operations</div>
       <div class="grid">
@@ -316,7 +324,6 @@
         </a>
       </div>
     </div>
-
   </div>
 
 </div>
@@ -333,11 +340,19 @@
   </button>
 </nav>
 
-<!-- NOTICE BANNER -->
-<div class="notice-bar">
+<!-- NOTICE BANNER (tap to expand) -->
+<div class="notice-bar" onclick="openNotice()">
   <div class="notice-dot off" id="noticedot"></div>
   <div class="notice-text dim" id="noticetext">No active notices</div>
-  <div class="notice-time" id="noticetime"></div>
+</div>
+
+<!-- NOTICE EXPANDED MODAL -->
+<div class="notice-overlay" id="notice-overlay">
+  <div class="notice-card">
+    <div class="notice-card-head" id="notice-card-head">&#128226; Notice</div>
+    <div class="notice-card-body dim" id="notice-card-body">No active notices</div>
+    <button class="notice-card-close" onclick="closeNotice()">Close</button>
+  </div>
 </div>
 
 <!-- INFO MODAL -->
@@ -348,17 +363,37 @@
       <h2>NCEMS Field Reference</h2>
     </div>
     <div class="info-body">
-      <p class="info-line">This is a reference guide only &mdash; questions or comments, contact me.</p>
-      <a class="info-email" href="mailto:d.boyce@northcountryems.org">d.boyce@northcountryems.org</a>
+      <p class="info-line">This is a reference guide only &mdash; questions or comments, contact Doug.</p>
+      <a class="info-email" href="mailto:d.boyce@northcountryems.org?subject=NCEMS%20HUB%20APP">d.boyce@northcountryems.org</a>
     </div>
     <button class="info-close" onclick="closeInfo()">Close</button>
   </div>
 </div>
 
 <script>
-/* ACCESS CODE — placeholder client-side gate. Move to Firebase Auth for real protection. */
+/* ===== OPS ACCESS CODE — resets every 2 hours or on reopen ===== */
 var OPS_CODE = "5142";
-var opsUnlocked = false;
+var UNLOCK_WINDOW_MS = 2 * 60 * 60 * 1000; // 2 hours
+var unlockedAt = 0;
+
+function isUnlocked(){
+  return unlockedAt > 0 && (Date.now() - unlockedAt) < UNLOCK_WINDOW_MS;
+}
+function lockOps(){
+  unlockedAt = 0;
+  document.getElementById('ops-lock').style.display = 'block';
+  document.getElementById('ops-unlocked').style.display = 'none';
+  var ico = document.getElementById('ops-lock-ico');
+  if (ico) ico.style.display = 'inline';
+  var inp = document.getElementById('lock-input');
+  if (inp) inp.value = '';
+}
+function showUnlocked(){
+  document.getElementById('ops-lock').style.display = 'none';
+  document.getElementById('ops-unlocked').style.display = 'block';
+  var ico = document.getElementById('ops-lock-ico');
+  if (ico) ico.style.display = 'none';
+}
 
 function switchTab(which){
   document.getElementById('tab-clinical').classList.toggle('active', which==='clinical');
@@ -366,8 +401,9 @@ function switchTab(which){
   document.getElementById('t-clinical').classList.toggle('active', which==='clinical');
   document.getElementById('t-ops').classList.toggle('active', which==='ops');
   document.querySelector('.content').scrollTop = 0;
-  if (which==='ops' && !opsUnlocked){
-    setTimeout(function(){ var i=document.getElementById('lock-input'); if(i) i.focus(); }, 100);
+  if (which==='ops'){
+    if (isUnlocked()) { showUnlocked(); }
+    else { lockOps(); setTimeout(function(){ var i=document.getElementById('lock-input'); if(i) i.focus(); }, 100); }
   }
 }
 
@@ -375,10 +411,8 @@ function tryUnlock(){
   var val = document.getElementById('lock-input').value.trim();
   var err = document.getElementById('lock-err');
   if (val === OPS_CODE){
-    opsUnlocked = true;
-    document.getElementById('ops-lock').style.display = 'none';
-    document.getElementById('ops-unlocked').style.display = 'block';
-    document.getElementById('ops-lock-ico').style.display = 'none';
+    unlockedAt = Date.now();
+    showUnlocked();
     err.textContent = '';
   } else {
     err.textContent = 'Incorrect code';
@@ -386,13 +420,27 @@ function tryUnlock(){
   }
 }
 
-function openInfo(){ document.getElementById('info-overlay').classList.add('show'); }
-function closeInfo(){ document.getElementById('info-overlay').classList.remove('show'); }
-document.getElementById('info-overlay').addEventListener('click', function(e){
-  if (e.target === this) closeInfo();
+/* re-lock when app returns to foreground if window expired */
+document.addEventListener('visibilitychange', function(){
+  if (!document.hidden && !isUnlocked()){
+    lockOps();
+    if (document.getElementById('tab-ops').classList.contains('active')){
+      setTimeout(function(){ var i=document.getElementById('lock-input'); if(i) i.focus(); }, 100);
+    }
+  }
 });
 
-/* FIREBASE NOTICES */
+/* INFO MODAL */
+function openInfo(){ document.getElementById('info-overlay').classList.add('show'); }
+function closeInfo(){ document.getElementById('info-overlay').classList.remove('show'); }
+document.getElementById('info-overlay').addEventListener('click', function(e){ if (e.target === this) closeInfo(); });
+
+/* NOTICE MODAL */
+function openNotice(){ document.getElementById('notice-overlay').classList.add('show'); }
+function closeNotice(){ document.getElementById('notice-overlay').classList.remove('show'); }
+document.getElementById('notice-overlay').addEventListener('click', function(e){ if (e.target === this) closeNotice(); });
+
+/* ===== FIREBASE NOTICES ===== */
 (async function(){
   var FIREBASE_READY = false;
   var firebaseConfig = {
@@ -410,21 +458,30 @@ document.getElementById('info-overlay').addEventListener('click', function(e){
   fs.onSnapshot(fs.doc(db, "notices", "active"), function(snap){
     var dot = document.getElementById("noticedot");
     var txt = document.getElementById("noticetext");
-    var time = document.getElementById("noticetime");
+    var cardHead = document.getElementById("notice-card-head");
+    var cardBody = document.getElementById("notice-card-body");
     if (snap.exists() && snap.data().message && snap.data().message.trim()) {
       var d = snap.data();
       dot.className = "notice-dot" + (d.urgent ? " warn" : "");
       txt.className = "notice-text";
       txt.textContent = d.message;
+      cardHead.className = "notice-card-head" + (d.urgent ? " warn" : "");
+      cardHead.innerHTML = (d.urgent ? "\u26A0 Urgent Notice" : "\uD83D\uDCE2 Notice");
+      cardBody.className = "notice-card-body";
+      var timeStr = "";
       if (d.timestamp && d.timestamp.toDate) {
         var dt = d.timestamp.toDate();
-        time.textContent = dt.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
+        timeStr = '<div class="notice-card-time">Posted ' + dt.toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}) + '</div>';
       }
+      cardBody.innerHTML = d.message + timeStr;
     } else {
       dot.className = "notice-dot off";
       txt.className = "notice-text dim";
       txt.textContent = "No active notices";
-      time.textContent = "";
+      cardHead.className = "notice-card-head";
+      cardHead.innerHTML = "\uD83D\uDCE2 Notice";
+      cardBody.className = "notice-card-body dim";
+      cardBody.textContent = "No active notices";
     }
   });
 })();

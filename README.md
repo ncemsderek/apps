@@ -15,6 +15,7 @@ Central landing page for North Country EMS crew and admin tools.
 - `admin.html` — BC/Chief login to push notices
 - `logo.png` — NCEMS round logo (header)
 - `apple-touch-icon.png` — iOS home-screen + tab icon
+- `manifest.json` — standalone app-mode config
 - `README.md` — this file
 
 ## Page layout
@@ -34,6 +35,14 @@ Intubation (live) · Advanced Airway · Drip Sets · Medication List · Shock ·
 3. Change `ADMIN_PASSWORD` in `admin.html` before deploying
 
 ## Changelog
+
+### v1.7
+- Notice banner: smaller (38px), white centered text, tap it to expand the full notice in a popup
+- Info panel now reads "contact Doug" and the email opens with subject line "NCEMS HUB APP"
+- Ops access code (5142) resets every 2 hours, and re-locks when the app returns to foreground past that window
+- Added manifest.json for clean standalone app-mode launch from the home screen
+- NOTE on app mode: links to other apps open in an iOS Safari sheet, not full-screen — that's an iOS rule the hub can't override. Each app runs full-screen only when added to the home screen on its own.
+- jsdom smoke test: 15/15 pass
 
 ### v1.6
 - Removed swipe. Bottom tab bar now: Clinical (default) | Operations
