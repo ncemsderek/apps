@@ -35,6 +35,13 @@ Intubation (live) · Advanced Airway · Drip Sets · Medication List · Shock ·
 
 ## Changelog
 
+### v1.5
+- Clinical + Quick Protocols cards now use the Intubation Guide's button style: tall forest-green gradient cards, big bold uppercase SF Mono titles, press-to-scale, no confirm on tap
+- Ops/Apparatus buttons (Incident Report, NCEMS OT, WAMBOchecker) match the same family
+- Coming Soon cards use a muted version of the same button shape
+- SF Mono set as the hub's base font to match the clinical apps
+- jsdom smoke test: 12/12 pass
+
 ### v1.4
 - NCEMS round logo in header, iOS home-screen icon, and favicon
 - Removed all emoji icons (the source of the garbling) — clean text + logo only

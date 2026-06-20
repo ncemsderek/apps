@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -21,11 +21,10 @@
     --g-pale:   #EBF5EB;
     --warn:     #B87E0A;
     --bad:      #C13E3E;
-    --ink:      #152210;
-    --ink-soft: #4a5e42;
+    --text:     #1A1A1A;
+    --text-muted:#555;
+    --border:   #C5DFC5;
     --white:    #ffffff;
-    --soon-bg:  #f0f0ee;
-    --soon-ink: #999;
     --banner-h: 52px;
     --hdr-h:    72px;
     --dots-h:   28px;
@@ -33,10 +32,11 @@
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
   html, body {
     height: 100%; width: 100%; overflow: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    font-family: 'SF Mono', ui-monospace, 'Cascadia Code', 'Menlo', monospace;
     background: var(--g-deep);
-    color: var(--ink);
+    color: var(--text);
     overscroll-behavior: none;
+    -webkit-text-size-adjust: 100%;
   }
 
   /* HEADER */
@@ -53,22 +53,19 @@
   }
   .hdr-logo {
     width: 50px; height: 50px; border-radius: 50%;
-    background: var(--white);
-    object-fit: cover; flex-shrink: 0;
+    background: var(--white); object-fit: cover; flex-shrink: 0;
     box-shadow: 0 1px 4px rgba(0,0,0,.3);
   }
-  .hdr-text h1 { font-size: 18px; font-weight: 700; }
-  .hdr-text p  { font-size: 11px; opacity: .7; margin-top: 1px; }
+  .hdr-text h1 { font-size: 18px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+  .hdr-text p  { font-size: 10px; opacity: .7; margin-top: 2px; letter-spacing: 1px; }
 
-  /* PAGE DOTS */
+  /* DOTS */
   .dots {
     position: fixed;
     top: calc(var(--hdr-h) + env(safe-area-inset-top));
-    left: 0; right: 0;
-    height: var(--dots-h);
+    left: 0; right: 0; height: var(--dots-h);
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    background: #e8ede8;
-    z-index: 29;
+    background: #e8ede8; z-index: 29;
   }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: #bbb;
          transition: background .2s, transform .2s; }
@@ -91,75 +88,85 @@
     width: 50%; height: 100%;
     overflow-y: auto; -webkit-overflow-scrolling: touch;
     background: #f0f4f0;
+    padding: 4px 0 0;
   }
 
   .section-label {
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 1.4px; text-transform: uppercase;
-    color: var(--g-mid);
-    padding: 14px 16px 5px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 16px 18px 8px;
   }
 
-  /* CLINICAL CARDS — big word, full width */
-  .clin-list { padding: 0 12px 8px; display: flex; flex-direction: column; gap: 8px; }
-  .clin-card {
-    display: flex; align-items: center;
-    background: var(--white);
-    border-radius: 14px;
-    border-left: 6px solid var(--g-accent);
-    padding: 0 18px;
-    height: 72px;
+  /* CLINICAL BUTTONS — matches Intubation splash-btn */
+  .clin-list { display: flex; flex-direction: column; gap: 14px; padding: 0 16px 6px; }
+
+  .clin-btn {
+    display: flex; align-items: center; justify-content: center;
+    padding: 28px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+    cursor: pointer;
+    transition: transform 0.1s;
+    position: relative; overflow: hidden;
+    min-height: 88px;
     text-decoration: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,.07);
-    transition: transform .07s ease, box-shadow .07s ease;
-    overflow: hidden;
+    background: linear-gradient(135deg, #2E6B2E 0%, #3A8A3A 100%);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.30);
   }
-  .clin-card:active { transform: scale(.978); box-shadow: 0 1px 4px rgba(0,0,0,.1); }
-  .clin-card.soon { border-left-color: #ccc; background: var(--soon-bg); }
-  .clin-word {
-    font-family: "SF Mono", "Fira Mono", "Courier New", monospace;
-    font-size: clamp(22px, 5.5vw, 34px);
-    font-weight: 900;
-    letter-spacing: -.5px;
+  .clin-btn:active { transform: scale(0.97); }
+
+  .clin-btn.protocols {
+    background: linear-gradient(135deg, #1C3A1C 0%, #2E6B2E 100%);
+  }
+
+  .clin-btn.soon {
+    background: linear-gradient(135deg, #6b756b 0%, #889088 100%);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    cursor: default;
+  }
+  .clin-btn.soon:active { transform: none; }
+
+  .clin-title {
+    font-size: clamp(26px, 7vw, 36px);
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--g-deep);
-    line-height: 1; flex: 1;
+    line-height: 1.1;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
-  .clin-card.soon .clin-word { color: var(--soon-ink); }
   .soon-pill {
-    font-size: 9px; font-weight: 700; letter-spacing: .8px;
+    position: absolute; top: 10px; right: 12px;
+    font-size: 9px; font-weight: 800; letter-spacing: 1px;
     text-transform: uppercase;
-    background: #ddd; color: #999;
-    border-radius: 5px; padding: 3px 7px; flex-shrink: 0;
+    background: rgba(255,255,255,0.85); color: #555;
+    border-radius: 5px; padding: 3px 7px;
   }
-  .clin-chev { color: var(--g-accent); font-size: 22px; font-weight: 700;
-               flex-shrink: 0; margin-left: 8px; }
 
   /* OPS GRID — page 2 */
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 12px 4px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 4px; }
   .grid.single { grid-template-columns: 1fr; }
-  .card {
-    background: var(--white); border-radius: 14px;
-    padding: 16px 14px;
-    display: flex; flex-direction: column; gap: 4px;
-    text-decoration: none; color: var(--ink);
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    border-left: 5px solid var(--g-accent);
-    min-height: 84px;
-    transition: transform .08s ease, box-shadow .08s ease;
+  .ops-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 24px 14px; min-height: 96px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: linear-gradient(135deg, #2E6B2E 0%, #3A8A3A 100%);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+    text-decoration: none; cursor: pointer;
+    transition: transform 0.1s; text-align: center;
   }
-  .card:active { transform: scale(.975); box-shadow: 0 1px 4px rgba(0,0,0,.1); }
-  .card-name { font-size: 15px; font-weight: 700; color: var(--g-deep); line-height: 1.2; }
-  .card-desc { font-size: 11px; color: var(--ink-soft); line-height: 1.3; }
-  .card.wambo {
-    border-left-color: var(--g-mid);
-    background: var(--g-pale);
-    flex-direction: row; align-items: center; gap: 14px;
-    min-height: auto; padding: 16px;
+  .ops-btn:active { transform: scale(0.97); }
+  .ops-title { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: 1px;
+               text-transform: uppercase; line-height: 1.1; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+  .ops-sub   { font-size: 10px; color: rgba(255,255,255,0.8); margin-top: 6px; letter-spacing: .5px; }
+
+  .ops-btn.wambo {
+    background: linear-gradient(135deg, #1C3A1C 0%, #2E6B2E 100%);
+    flex-direction: column;
   }
-  .card.wambo .card-name { font-size: 16px; }
-  .wambo-body { flex: 1; }
-  .wambo-chev { color: var(--g-accent); font-size: 20px; font-weight: 700; }
 
   /* NOTICE BANNER */
   .notice-bar {
@@ -183,7 +190,15 @@
   .notice-text.dim { opacity:.35; font-style:italic; }
   .notice-time { font-size:10px; opacity:.45; flex-shrink:0; }
 
-  .bottom-pad { height: 10px; }
+  .bottom-pad { height: 12px; }
+
+  /* iPad sizing */
+  @media (min-width: 720px) {
+    .clin-btn { min-height: 110px; }
+    .clin-title { font-size: 42px; }
+    .ops-title { font-size: 26px; }
+    .hdr-text h1 { font-size: 22px; }
+  }
 </style>
 </head>
 <body>
@@ -192,7 +207,7 @@
   <img class="hdr-logo" src="logo.png" alt="NCEMS">
   <div class="hdr-text">
     <h1>NCEMS Field Reference</h1>
-    <p>North Country EMS &middot; Clark Fire District 13</p>
+    <p>North Country EMS &middot; Clark Fire 13</p>
   </div>
 </header>
 
@@ -208,36 +223,22 @@
     <div class="page" id="page0">
       <div class="section-label">Clinical Reference</div>
       <div class="clin-list">
-        <a class="clin-card" href="https://ncemsderek.github.io/Intubation/">
-          <span class="clin-word">Intubation</span><span class="clin-chev">&rsaquo;</span>
+        <a class="clin-btn" href="https://ncemsderek.github.io/Intubation/">
+          <div class="clin-title">Intubation</div>
         </a>
-        <div class="clin-card soon">
-          <span class="clin-word">Advanced Airway</span><span class="soon-pill">Soon</span>
-        </div>
-        <div class="clin-card soon">
-          <span class="clin-word">Drip Sets</span><span class="soon-pill">Soon</span>
-        </div>
-        <div class="clin-card soon">
-          <span class="clin-word">Medication List</span><span class="soon-pill">Soon</span>
-        </div>
-        <div class="clin-card soon">
-          <span class="clin-word">Shock</span><span class="soon-pill">Soon</span>
-        </div>
-        <div class="clin-card soon">
-          <span class="clin-word">Sepsis</span><span class="soon-pill">Soon</span>
-        </div>
-        <div class="clin-card soon">
-          <span class="clin-word">Stroke</span><span class="soon-pill">Soon</span>
-        </div>
-        <div class="clin-card soon">
-          <span class="clin-word">Cardiac</span><span class="soon-pill">Soon</span>
-        </div>
+        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Advanced Airway</div></div>
+        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Drip Sets</div></div>
+        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Medication List</div></div>
+        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Shock</div></div>
+        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Sepsis</div></div>
+        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Stroke</div></div>
+        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Cardiac</div></div>
       </div>
 
       <div class="section-label">Protocols</div>
       <div class="clin-list">
-        <a class="clin-card" href="https://ncemsderek.github.io/Protocols/protocol-app.html">
-          <span class="clin-word">Quick Protocols</span><span class="clin-chev">&rsaquo;</span>
+        <a class="clin-btn protocols" href="https://ncemsderek.github.io/Protocols/protocol-app.html">
+          <div class="clin-title">Quick Protocols</div>
         </a>
       </div>
       <div class="bottom-pad"></div>
@@ -247,24 +248,21 @@
     <div class="page" id="page1">
       <div class="section-label">Operations</div>
       <div class="grid">
-        <a class="card" href="https://ncemsderek.github.io/onduty-incident-report/">
-          <div class="card-name">Incident Report</div>
-          <div class="card-desc">File on-duty incident reports</div>
+        <a class="ops-btn" href="https://ncemsderek.github.io/onduty-incident-report/">
+          <div class="ops-title">Incident<br>Report</div>
+          <div class="ops-sub">On-duty reports</div>
         </a>
-        <a class="card" href="https://ncemsderek.github.io/ncems-ot/">
-          <div class="card-name">NCEMS OT</div>
-          <div class="card-desc">Overtime sign-up &amp; scheduling</div>
+        <a class="ops-btn" href="https://ncemsderek.github.io/ncems-ot/">
+          <div class="ops-title">NCEMS<br>OT</div>
+          <div class="ops-sub">Overtime sign-up</div>
         </a>
       </div>
 
       <div class="section-label">Apparatus</div>
       <div class="grid single">
-        <a class="card wambo" href="https://ncemsderek.github.io/WAMBOchecker/">
-          <div class="wambo-body">
-            <div class="card-name">WAMBOchecker</div>
-            <div class="card-desc">Daily apparatus checks &middot; M25A &middot; M25B &middot; M19 &middot; M18 &middot; M14</div>
-          </div>
-          <div class="wambo-chev">&rsaquo;</div>
+        <a class="ops-btn wambo" href="https://ncemsderek.github.io/WAMBOchecker/">
+          <div class="ops-title">WAMBOchecker</div>
+          <div class="ops-sub">Daily checks &middot; M25A &middot; M25B &middot; M19 &middot; M18 &middot; M14</div>
         </a>
       </div>
       <div class="bottom-pad"></div>
@@ -294,14 +292,11 @@
     pages.style.transform  = "translateX(-" + (cur * 50) + "%)";
     for (var i=0;i<dots.length;i++){ dots[i].classList.toggle("active", i === cur); }
   }
-
   wrap.addEventListener("touchstart", function(e){
-    var t = e.touches[0];
-    startX = t.clientX; startY = t.clientY;
+    var t = e.touches[0]; startX = t.clientX; startY = t.clientY;
     dx = 0; lockAxis = null; dragging = true;
     pages.style.transition = "none";
   }, {passive:true});
-
   wrap.addEventListener("touchmove", function(e){
     if (!dragging) return;
     var t = e.touches[0];
@@ -313,7 +308,6 @@
     var base = cur * pageW();
     pages.style.transform = "translateX(" + (-(base - dx)) + "px)";
   }, {passive:false});
-
   wrap.addEventListener("touchend", function(){
     if (!dragging || lockAxis !== "x"){ dragging = false; lockAxis = null; return; }
     dragging = false; lockAxis = null;
@@ -321,7 +315,6 @@
     else if (dx > 50) goTo(cur - 1, true);
     else goTo(cur, true);
   });
-
   for (var i=0;i<dots.length;i++){
     (function(idx){ dots[idx].addEventListener("click", function(){ goTo(idx, true); }); })(i);
   }
