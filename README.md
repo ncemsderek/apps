@@ -36,6 +36,14 @@ Intubation (live) · Advanced Airway · Drip Sets · Medication List · Shock ·
 
 ## Changelog
 
+### v1.9
+- Firebase live: projectId ncems-hub-9111d
+- FIREBASE_READY = true in both index.html and admin.html
+- Admin password updated to Ncems911
+- Usage tracker live: bumps hub open count in Firestore (usage/hub) with daily breakdown
+- Notice listener active: crew hub updates in real time when admin pushes a notice
+- Monthly usage email report still pending (Google Apps Script — future session)
+
 ### v1.8
 - Added a line to the info panel: apps open in a Safari window; for full-screen, add them to the home screen individually
 - jsdom smoke test: 5/5 pass

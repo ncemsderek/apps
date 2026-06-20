@@ -443,46 +443,63 @@ function openNotice(){ document.getElementById('notice-overlay').classList.add('
 function closeNotice(){ document.getElementById('notice-overlay').classList.remove('show'); }
 document.getElementById('notice-overlay').addEventListener('click', function(e){ if (e.target === this) closeNotice(); });
 
-/* ===== FIREBASE NOTICES ===== */
+/* ===== FIREBASE ===== */
 (async function(){
-  var FIREBASE_READY = false;
+  var FIREBASE_READY = true;
   var firebaseConfig = {
-    apiKey:            "PASTE_YOUR_KEY_HERE",
-    authDomain:        "PASTE.firebaseapp.com",
-    projectId:         "PASTE_PROJECT_ID",
-    storageBucket:     "PASTE.appspot.com",
-    messagingSenderId: "PASTE_SENDER_ID",
-    appId:             "PASTE_APP_ID"
+    apiKey:            "AIzaSyCBSmzaXRU6TV1Jen5z4xHKZfG28UHXlkY",
+    authDomain:        "ncems-hub-9111d.firebaseapp.com",
+    projectId:         "ncems-hub-9111d",
+    storageBucket:     "ncems-hub-9111d.firebasestorage.app",
+    messagingSenderId: "282446545601",
+    appId:             "1:282446545601:web:41f89407c2a1a348f24a40"
   };
   if (!FIREBASE_READY) return;
+
   var fb = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
   var fs = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   var db = fs.getFirestore(fb.initializeApp(firebaseConfig));
+
+  /* --- USAGE TRACKER: bump hub open count --- */
+  try {
+    var today = new Date().toISOString().slice(0,10); // YYYY-MM-DD
+    var usageRef = fs.doc(db, "usage", "hub");
+    await fs.runTransaction(db, async function(tx){
+      var snap = await tx.get(usageRef);
+      var data = snap.exists() ? snap.data() : { total: 0, days: {} };
+      data.total = (data.total || 0) + 1;
+      data.days = data.days || {};
+      data.days[today] = (data.days[today] || 0) + 1;
+      tx.set(usageRef, data);
+    });
+  } catch(e){ console.warn("Usage track failed", e); }
+
+  /* --- NOTICES: live listener --- */
   fs.onSnapshot(fs.doc(db, "notices", "active"), function(snap){
-    var dot = document.getElementById("noticedot");
-    var txt = document.getElementById("noticetext");
+    var dot      = document.getElementById("noticedot");
+    var txt      = document.getElementById("noticetext");
     var cardHead = document.getElementById("notice-card-head");
     var cardBody = document.getElementById("notice-card-body");
     if (snap.exists() && snap.data().message && snap.data().message.trim()) {
       var d = snap.data();
-      dot.className = "notice-dot" + (d.urgent ? " warn" : "");
-      txt.className = "notice-text";
+      dot.className  = "notice-dot" + (d.urgent ? " warn" : "");
+      txt.className  = "notice-text";
       txt.textContent = d.message;
       cardHead.className = "notice-card-head" + (d.urgent ? " warn" : "");
-      cardHead.innerHTML = (d.urgent ? "\u26A0 Urgent Notice" : "\uD83D\uDCE2 Notice");
+      cardHead.innerHTML = d.urgent ? "\u26A0 Urgent Notice" : "&#128226; Notice";
       cardBody.className = "notice-card-body";
       var timeStr = "";
       if (d.timestamp && d.timestamp.toDate) {
         var dt = d.timestamp.toDate();
-        timeStr = '<div class="notice-card-time">Posted ' + dt.toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}) + '</div>';
+        timeStr = '<div class="notice-card-time">Posted ' + dt.toLocaleString([],{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}) + '</div>';
       }
       cardBody.innerHTML = d.message + timeStr;
     } else {
-      dot.className = "notice-dot off";
-      txt.className = "notice-text dim";
+      dot.className  = "notice-dot off";
+      txt.className  = "notice-text dim";
       txt.textContent = "No active notices";
       cardHead.className = "notice-card-head";
-      cardHead.innerHTML = "\uD83D\uDCE2 Notice";
+      cardHead.innerHTML = "&#128226; Notice";
       cardBody.className = "notice-card-body dim";
       cardBody.textContent = "No active notices";
     }
