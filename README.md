@@ -1,51 +1,53 @@
-# NCEMS Apps
+# NCEMS Field Reference Hub
 
-Landing page hub for the North Country EMS field app suite. One home-screen icon that links out to every app.
+Central landing page for North Country EMS crew and admin tools.
 
 ## Links
 
-- Live: [https://ncemsderek.github.io/apps/](https://ncemsderek.github.io/apps/)
+- Live (hub): [https://ncemsderek.github.io/apps/](https://ncemsderek.github.io/apps/)
+- Live (admin): [https://ncemsderek.github.io/apps/admin.html](https://ncemsderek.github.io/apps/admin.html)
 - Repo: [https://github.com/ncemsderek/apps](https://github.com/ncemsderek/apps)
 - Upload: [https://github.com/ncemsderek/apps/upload/main](https://github.com/ncemsderek/apps/upload/main)
 
-## Apps linked
+## Files
 
-- WAMBOchecker — [https://ncemsderek.github.io/WAMBOchecker/](https://ncemsderek.github.io/WAMBOchecker/)
-- Intubation Guide — [https://ncemsderek.github.io/Intubation/](https://ncemsderek.github.io/Intubation/)
-- On-Duty Incident Report — [https://ncemsderek.github.io/onduty-incident-report/](https://ncemsderek.github.io/onduty-incident-report/)
-- Clark County Protocols — [https://ncemsderek.github.io/Protocols/protocol-app.html](https://ncemsderek.github.io/Protocols/protocol-app.html)
-- NCEMS OT — [https://ncemsderek.github.io/ncems-ot/](https://ncemsderek.github.io/ncems-ot/)
+- `index.html` — crew-facing hub (clinical reference + app cards + notice banner)
+- `admin.html` — BC/Chief login to push notices live to the hub
+- `README.md` — this file
 
 ## Adding more apps
 
-Open `index.html`, find the `APPS` list near the top of the `<script>`, and copy one block:
+Open `index.html`, find a section (`Clinical Reference`, `Operations`, etc.) and copy a card block. The grid handles layout automatically.
 
-```js
-{
-  name: "App Name",
-  desc: "Short one-liner",
-  icon: "\uD83D\uDE9A",   // any emoji
-  url:  "https://ncemsderek.github.io/your-repo/"
-}
-```
+## Firebase setup (notices)
 
-Order in the list = order on the page. No other changes needed.
+1. Paste your Firebase config into both `index.html` and `admin.html`
+2. Set `FIREBASE_READY = true` in both files
+3. Change `ADMIN_PASSWORD` in `admin.html` to something real before deploying
 
-## Stack
+## Admin password
 
-Single-file `index.html` + `logo.png`. No build step. GitHub Pages deploy.
+Default is `ncems2026` — **change this before deploying** in `admin.html`.
 
 ## Changelog
 
+### v1.2
+- Full hub rebuild — clinical reference first, apparatus last
+- iPad/iOS primary layout, 2-column grid, big tap targets
+- Admin notice banner pinned to bottom (never blocks content)
+- `admin.html` — BC/Chief login, push/clear notices, urgent flag (amber)
+- Firebase listener wired and ready — just needs config + `FIREBASE_READY = true`
+- Seven clinical cards as Coming Soon placeholders
+- WAMBOchecker full-width at bottom with fleet units listed
+
 ### v1.1
-- Cards now render from an `APPS` list at the top of the file — adding an app is one block.
-- Added fifth card: NCEMS OT.
+- Config-driven APPS list; added NCEMS OT as fifth card
 
 ### v1.0
-- First build. Four app cards, forest green branding, mobile-first, no-cache headers, logo fallback.
+- First build. Four app cards, forest green branding, mobile-first.
 
 ## Notes
 
-- Hosted in its own repo (`apps`) so it serves at `/apps/` and never touches the root URL or any other app.
-- Drop a `logo.png` in the repo root (reuse the one from WAMBOchecker) or the header just shows the title.
-- iOS home-screen app caches hard — delete and re-add the icon after every deploy.
+- Hosted in `apps` repo so it sits at `/apps/` — never touches the root URL
+- iOS home-screen caches hard — delete and re-add icon after every deploy
+- Admin page is at `/apps/admin.html` — share only with BCs and chiefs
