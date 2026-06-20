@@ -35,6 +35,14 @@ Intubation (live) · Advanced Airway · Drip Sets · Medication List · Shock ·
 
 ## Changelog
 
+### v1.6
+- Removed swipe. Bottom tab bar now: Clinical (default) | Operations
+- Operations tab locked with code 5142 — unlocks once, stays unlocked until the app fully closes
+- Operations holds Incident Report, NCEMS OT, WAMBOchecker
+- (i) info button top-right of header — credits Doug with a one-line note and a tap-to-email link (d.boyce@northcountryems.org)
+- NOTE: 5142 lives in page source — placeholder gate only. Move to Firebase Auth for real protection (planned)
+- jsdom smoke test: 20/20 pass
+
 ### v1.5
 - Clinical + Quick Protocols cards now use the Intubation Guide's button style: tall forest-green gradient cards, big bold uppercase SF Mono titles, press-to-scale, no confirm on tap
 - Ops/Apparatus buttons (Incident Report, NCEMS OT, WAMBOchecker) match the same family

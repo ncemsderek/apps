@@ -25,9 +25,9 @@
     --text-muted:#555;
     --border:   #C5DFC5;
     --white:    #ffffff;
-    --banner-h: 52px;
+    --banner-h: 50px;
+    --tab-h:    62px;
     --hdr-h:    72px;
-    --dots-h:   28px;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
   html, body {
@@ -47,7 +47,7 @@
     background: linear-gradient(135deg, var(--g-deep) 0%, var(--g-mid) 100%);
     color: var(--white);
     display: flex; align-items: center; gap: 12px;
-    padding-left: 14px; padding-right: 16px;
+    padding-left: 14px; padding-right: 12px;
     z-index: 30;
     box-shadow: 0 2px 12px rgba(0,0,0,.3);
   }
@@ -56,40 +56,29 @@
     background: var(--white); object-fit: cover; flex-shrink: 0;
     box-shadow: 0 1px 4px rgba(0,0,0,.3);
   }
-  .hdr-text h1 { font-size: 18px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+  .hdr-text { flex: 1; min-width: 0; }
+  .hdr-text h1 { font-size: 17px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
   .hdr-text p  { font-size: 10px; opacity: .7; margin-top: 2px; letter-spacing: 1px; }
+  .info-btn {
+    flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    color: #fff; font-size: 20px; font-weight: 800; font-style: italic;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-family: Georgia, serif;
+  }
+  .info-btn:active { background: rgba(255,255,255,0.3); }
 
-  /* DOTS */
-  .dots {
+  /* CONTENT AREA */
+  .content {
     position: fixed;
     top: calc(var(--hdr-h) + env(safe-area-inset-top));
-    left: 0; right: 0; height: var(--dots-h);
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    background: #e8ede8; z-index: 29;
-  }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: #bbb;
-         transition: background .2s, transform .2s; }
-  .dot.active { background: var(--g-accent); transform: scale(1.3); }
-
-  /* SWIPE */
-  .pages-wrap {
-    position: fixed;
-    top: calc(var(--hdr-h) + var(--dots-h) + env(safe-area-inset-top));
     left: 0; right: 0;
-    bottom: calc(var(--banner-h) + env(safe-area-inset-bottom));
-    overflow: hidden;
-  }
-  .pages {
-    display: flex; width: 200%; height: 100%;
-    transition: transform .35s cubic-bezier(.4,0,.2,1);
-    will-change: transform;
-  }
-  .page {
-    width: 50%; height: 100%;
+    bottom: calc(var(--banner-h) + var(--tab-h) + env(safe-area-inset-bottom));
     overflow-y: auto; -webkit-overflow-scrolling: touch;
     background: #f0f4f0;
-    padding: 4px 0 0;
   }
+  .tab-page { display: none; padding: 4px 0 12px; }
+  .tab-page.active { display: block; }
 
   .section-label {
     font-size: 11px; font-weight: 800;
@@ -98,75 +87,104 @@
     padding: 16px 18px 8px;
   }
 
-  /* CLINICAL BUTTONS — matches Intubation splash-btn */
+  /* CLINICAL BUTTONS */
   .clin-list { display: flex; flex-direction: column; gap: 14px; padding: 0 16px 6px; }
-
   .clin-btn {
     display: flex; align-items: center; justify-content: center;
-    padding: 28px 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.12);
-    cursor: pointer;
-    transition: transform 0.1s;
-    position: relative; overflow: hidden;
-    min-height: 88px;
-    text-decoration: none;
+    padding: 28px 20px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.12); cursor: pointer;
+    transition: transform 0.1s; position: relative; overflow: hidden;
+    min-height: 88px; text-decoration: none;
     background: linear-gradient(135deg, #2E6B2E 0%, #3A8A3A 100%);
     box-shadow: 0 6px 24px rgba(0,0,0,0.30);
   }
   .clin-btn:active { transform: scale(0.97); }
-
-  .clin-btn.protocols {
-    background: linear-gradient(135deg, #1C3A1C 0%, #2E6B2E 100%);
-  }
-
+  .clin-btn.protocols { background: linear-gradient(135deg, #1C3A1C 0%, #2E6B2E 100%); }
   .clin-btn.soon {
     background: linear-gradient(135deg, #6b756b 0%, #889088 100%);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-    cursor: default;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18); cursor: default;
   }
   .clin-btn.soon:active { transform: none; }
-
   .clin-title {
-    font-size: clamp(26px, 7vw, 36px);
-    font-weight: 800;
-    color: #fff;
-    text-align: center;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    line-height: 1.1;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    font-size: clamp(26px, 7vw, 36px); font-weight: 800; color: #fff;
+    text-align: center; letter-spacing: 1.5px; text-transform: uppercase;
+    line-height: 1.1; text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
   .soon-pill {
     position: absolute; top: 10px; right: 12px;
-    font-size: 9px; font-weight: 800; letter-spacing: 1px;
-    text-transform: uppercase;
-    background: rgba(255,255,255,0.85); color: #555;
-    border-radius: 5px; padding: 3px 7px;
+    font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+    background: rgba(255,255,255,0.85); color: #555; border-radius: 5px; padding: 3px 7px;
   }
 
-  /* OPS GRID — page 2 */
+  /* OPS GRID */
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 4px; }
   .grid.single { grid-template-columns: 1fr; }
   .ops-btn {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 24px 14px; min-height: 96px;
-    border-radius: 12px;
+    padding: 24px 14px; min-height: 96px; border-radius: 12px;
     border: 1px solid rgba(255,255,255,0.12);
     background: linear-gradient(135deg, #2E6B2E 0%, #3A8A3A 100%);
     box-shadow: 0 6px 20px rgba(0,0,0,0.28);
-    text-decoration: none; cursor: pointer;
-    transition: transform 0.1s; text-align: center;
+    text-decoration: none; cursor: pointer; transition: transform 0.1s; text-align: center;
   }
   .ops-btn:active { transform: scale(0.97); }
   .ops-title { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: 1px;
                text-transform: uppercase; line-height: 1.1; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
   .ops-sub   { font-size: 10px; color: rgba(255,255,255,0.8); margin-top: 6px; letter-spacing: .5px; }
+  .ops-btn.wambo { background: linear-gradient(135deg, #1C3A1C 0%, #2E6B2E 100%); }
 
-  .ops-btn.wambo {
-    background: linear-gradient(135deg, #1C3A1C 0%, #2E6B2E 100%);
-    flex-direction: column;
+  /* LOCK SCREEN (Operations tab when locked) */
+  .lock-screen {
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    padding: 48px 24px 24px; text-align: center;
   }
+  .lock-icon { font-size: 52px; margin-bottom: 8px; }
+  .lock-title {
+    font-size: 18px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--g-deep); margin-bottom: 4px;
+  }
+  .lock-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; letter-spacing: 1px; }
+  .lock-input {
+    width: 200px; max-width: 80%; padding: 16px; font-size: 34px; font-weight: 800;
+    border: 2px solid var(--border); border-radius: 12px; text-align: center;
+    font-family: 'SF Mono', ui-monospace, 'Menlo', monospace; color: var(--g-deep);
+    letter-spacing: 10px; outline: none; -webkit-appearance: none; appearance: none;
+    background: #fff;
+  }
+  .lock-input:focus { border-color: var(--g-accent); }
+  .lock-input::-webkit-outer-spin-button, .lock-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .lock-btn {
+    margin-top: 18px; width: 200px; max-width: 80%; padding: 16px;
+    background: var(--g-accent); color: #fff; border: none; border-radius: 12px;
+    font-family: 'SF Mono', ui-monospace, 'Menlo', monospace;
+    font-size: 16px; font-weight: 800; letter-spacing: 2px; cursor: pointer;
+  }
+  .lock-btn:active { background: var(--g-mid); }
+  .lock-err {
+    margin-top: 14px; min-height: 18px; color: var(--bad);
+    font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  }
+
+  /* BOTTOM TAB BAR */
+  .tabbar {
+    position: fixed;
+    bottom: calc(var(--banner-h) + env(safe-area-inset-bottom));
+    left: 0; right: 0; height: var(--tab-h);
+    background: var(--white);
+    border-top: 1px solid #d8e0d8;
+    display: flex; z-index: 28;
+    box-shadow: 0 -1px 6px rgba(0,0,0,.06);
+  }
+  .tab {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px; cursor: pointer; border: none; background: none;
+    font-family: 'SF Mono', ui-monospace, 'Menlo', monospace;
+    color: #9aa79a;
+  }
+  .tab.active { color: var(--g-mid); }
+  .tab-ico { font-size: 22px; line-height: 1; }
+  .tab-lbl { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+  .tab-lock { font-size: 10px; }
 
   /* NOTICE BANNER */
   .notice-bar {
@@ -175,8 +193,7 @@
     padding-bottom: env(safe-area-inset-bottom);
     background: var(--g-deep); color: var(--white);
     display: flex; align-items: center; gap: 10px;
-    padding-left: 14px; padding-right: 14px;
-    z-index: 30;
+    padding-left: 14px; padding-right: 14px; z-index: 30;
     box-shadow: 0 -2px 10px rgba(0,0,0,.25);
   }
   .notice-dot { width: 8px; height: 8px; border-radius: 50%;
@@ -190,9 +207,40 @@
   .notice-text.dim { opacity:.35; font-style:italic; }
   .notice-time { font-size:10px; opacity:.45; flex-shrink:0; }
 
-  .bottom-pad { height: 12px; }
+  /* INFO MODAL */
+  .info-overlay {
+    position: fixed; inset: 0; background: rgba(14,30,14,0.85);
+    z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .info-overlay.show { display: flex; }
+  .info-card {
+    background: #fff; border-radius: 16px; max-width: 420px; width: 100%;
+    overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.4);
+  }
+  .info-head {
+    background: linear-gradient(135deg, var(--g-deep) 0%, var(--g-mid) 100%);
+    color: #fff; padding: 22px 20px; text-align: center;
+  }
+  .info-logo { width: 72px; height: 72px; border-radius: 50%; background: #fff;
+               object-fit: cover; margin-bottom: 10px; }
+  .info-head h2 { font-size: 16px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+  .info-body { padding: 22px 22px 8px; text-align: center; }
+  .info-line { font-size: 15px; line-height: 1.6; color: var(--text); margin-bottom: 18px; }
+  .info-email {
+    display: inline-block; background: var(--g-pale); color: var(--g-deep);
+    border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px;
+    font-size: 14px; font-weight: 800; text-decoration: none; letter-spacing: .5px;
+    word-break: break-all;
+  }
+  .info-email:active { background: #dceadc; }
+  .info-close {
+    display: block; width: calc(100% - 44px); margin: 18px 22px 22px; padding: 14px;
+    background: #eee; color: var(--text); border: none; border-radius: 10px;
+    font-family: 'SF Mono', ui-monospace, 'Menlo', monospace;
+    font-size: 15px; font-weight: 800; letter-spacing: 2px; cursor: pointer;
+  }
+  .info-close:active { background: #ddd; }
 
-  /* iPad sizing */
   @media (min-width: 720px) {
     .clin-btn { min-height: 110px; }
     .clin-title { font-size: 42px; }
@@ -209,55 +257,57 @@
     <h1>NCEMS Field Reference</h1>
     <p>North Country EMS &middot; Clark Fire 13</p>
   </div>
+  <button class="info-btn" onclick="openInfo()">i</button>
 </header>
 
-<div class="dots">
-  <div class="dot active" id="dot0"></div>
-  <div class="dot" id="dot1"></div>
-</div>
+<div class="content">
 
-<div class="pages-wrap" id="pageswrap">
-  <div class="pages" id="pages">
+  <!-- CLINICAL TAB -->
+  <div class="tab-page active" id="tab-clinical">
+    <div class="section-label">Clinical Reference</div>
+    <div class="clin-list">
+      <a class="clin-btn" href="https://ncemsderek.github.io/Intubation/"><div class="clin-title">Intubation</div></a>
+      <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Advanced Airway</div></div>
+      <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Drip Sets</div></div>
+      <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Medication List</div></div>
+      <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Shock</div></div>
+      <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Sepsis</div></div>
+      <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Stroke</div></div>
+      <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Cardiac</div></div>
+    </div>
+    <div class="section-label">Protocols</div>
+    <div class="clin-list">
+      <a class="clin-btn protocols" href="https://ncemsderek.github.io/Protocols/protocol-app.html"><div class="clin-title">Quick Protocols</div></a>
+    </div>
+  </div>
 
-    <!-- PAGE 1: CLINICAL -->
-    <div class="page" id="page0">
-      <div class="section-label">Clinical Reference</div>
-      <div class="clin-list">
-        <a class="clin-btn" href="https://ncemsderek.github.io/Intubation/">
-          <div class="clin-title">Intubation</div>
-        </a>
-        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Advanced Airway</div></div>
-        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Drip Sets</div></div>
-        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Medication List</div></div>
-        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Shock</div></div>
-        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Sepsis</div></div>
-        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Stroke</div></div>
-        <div class="clin-btn soon"><span class="soon-pill">Soon</span><div class="clin-title">Cardiac</div></div>
+  <!-- OPERATIONS TAB -->
+  <div class="tab-page" id="tab-ops">
+
+    <!-- locked view -->
+    <div id="ops-lock">
+      <div class="lock-screen">
+        <div class="lock-icon">&#128274;</div>
+        <div class="lock-title">Operations</div>
+        <div class="lock-sub">Enter access code</div>
+        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" class="lock-input" id="lock-input"
+               onkeydown="if(event.key==='Enter')tryUnlock()">
+        <button class="lock-btn" onclick="tryUnlock()">Unlock</button>
+        <div class="lock-err" id="lock-err"></div>
       </div>
-
-      <div class="section-label">Protocols</div>
-      <div class="clin-list">
-        <a class="clin-btn protocols" href="https://ncemsderek.github.io/Protocols/protocol-app.html">
-          <div class="clin-title">Quick Protocols</div>
-        </a>
-      </div>
-      <div class="bottom-pad"></div>
     </div>
 
-    <!-- PAGE 2: OPS + APPARATUS -->
-    <div class="page" id="page1">
+    <!-- unlocked view -->
+    <div id="ops-unlocked" style="display:none;">
       <div class="section-label">Operations</div>
       <div class="grid">
         <a class="ops-btn" href="https://ncemsderek.github.io/onduty-incident-report/">
-          <div class="ops-title">Incident<br>Report</div>
-          <div class="ops-sub">On-duty reports</div>
+          <div class="ops-title">Incident<br>Report</div><div class="ops-sub">On-duty reports</div>
         </a>
         <a class="ops-btn" href="https://ncemsderek.github.io/ncems-ot/">
-          <div class="ops-title">NCEMS<br>OT</div>
-          <div class="ops-sub">Overtime sign-up</div>
+          <div class="ops-title">NCEMS<br>OT</div><div class="ops-sub">Overtime sign-up</div>
         </a>
       </div>
-
       <div class="section-label">Apparatus</div>
       <div class="grid single">
         <a class="ops-btn wambo" href="https://ncemsderek.github.io/WAMBOchecker/">
@@ -265,60 +315,82 @@
           <div class="ops-sub">Daily checks &middot; M25A &middot; M25B &middot; M19 &middot; M18 &middot; M14</div>
         </a>
       </div>
-      <div class="bottom-pad"></div>
     </div>
 
   </div>
+
 </div>
 
+<!-- BOTTOM TABS -->
+<nav class="tabbar">
+  <button class="tab active" id="t-clinical" onclick="switchTab('clinical')">
+    <span class="tab-ico">&#129658;</span>
+    <span class="tab-lbl">Clinical</span>
+  </button>
+  <button class="tab" id="t-ops" onclick="switchTab('ops')">
+    <span class="tab-ico">&#128203;</span>
+    <span class="tab-lbl">Operations <span class="tab-lock" id="ops-lock-ico">&#128274;</span></span>
+  </button>
+</nav>
+
+<!-- NOTICE BANNER -->
 <div class="notice-bar">
   <div class="notice-dot off" id="noticedot"></div>
   <div class="notice-text dim" id="noticetext">No active notices</div>
   <div class="notice-time" id="noticetime"></div>
 </div>
 
-<script>
-/* SWIPE */
-(function(){
-  var pages = document.getElementById("pages");
-  var wrap  = document.getElementById("pageswrap");
-  var dots  = [document.getElementById("dot0"), document.getElementById("dot1")];
-  function pageW(){ return wrap.offsetWidth; }
-  var cur = 0, startX = 0, startY = 0, dx = 0, dragging = false, lockAxis = null;
+<!-- INFO MODAL -->
+<div class="info-overlay" id="info-overlay">
+  <div class="info-card">
+    <div class="info-head">
+      <img class="info-logo" src="logo.png" alt="NCEMS">
+      <h2>NCEMS Field Reference</h2>
+    </div>
+    <div class="info-body">
+      <p class="info-line">This is a reference guide only &mdash; questions or comments, contact me.</p>
+      <a class="info-email" href="mailto:d.boyce@northcountryems.org">d.boyce@northcountryems.org</a>
+    </div>
+    <button class="info-close" onclick="closeInfo()">Close</button>
+  </div>
+</div>
 
-  function goTo(n, animate){
-    cur = Math.max(0, Math.min(1, n));
-    pages.style.transition = animate ? "transform .35s cubic-bezier(.4,0,.2,1)" : "none";
-    pages.style.transform  = "translateX(-" + (cur * 50) + "%)";
-    for (var i=0;i<dots.length;i++){ dots[i].classList.toggle("active", i === cur); }
+<script>
+/* ACCESS CODE — placeholder client-side gate. Move to Firebase Auth for real protection. */
+var OPS_CODE = "5142";
+var opsUnlocked = false;
+
+function switchTab(which){
+  document.getElementById('tab-clinical').classList.toggle('active', which==='clinical');
+  document.getElementById('tab-ops').classList.toggle('active', which==='ops');
+  document.getElementById('t-clinical').classList.toggle('active', which==='clinical');
+  document.getElementById('t-ops').classList.toggle('active', which==='ops');
+  document.querySelector('.content').scrollTop = 0;
+  if (which==='ops' && !opsUnlocked){
+    setTimeout(function(){ var i=document.getElementById('lock-input'); if(i) i.focus(); }, 100);
   }
-  wrap.addEventListener("touchstart", function(e){
-    var t = e.touches[0]; startX = t.clientX; startY = t.clientY;
-    dx = 0; lockAxis = null; dragging = true;
-    pages.style.transition = "none";
-  }, {passive:true});
-  wrap.addEventListener("touchmove", function(e){
-    if (!dragging) return;
-    var t = e.touches[0];
-    var mx = t.clientX - startX, my = t.clientY - startY;
-    if (!lockAxis) lockAxis = Math.abs(mx) > Math.abs(my) ? "x" : "y";
-    if (lockAxis === "y") return;
-    e.preventDefault();
-    dx = mx;
-    var base = cur * pageW();
-    pages.style.transform = "translateX(" + (-(base - dx)) + "px)";
-  }, {passive:false});
-  wrap.addEventListener("touchend", function(){
-    if (!dragging || lockAxis !== "x"){ dragging = false; lockAxis = null; return; }
-    dragging = false; lockAxis = null;
-    if (dx < -50) goTo(cur + 1, true);
-    else if (dx > 50) goTo(cur - 1, true);
-    else goTo(cur, true);
-  });
-  for (var i=0;i<dots.length;i++){
-    (function(idx){ dots[idx].addEventListener("click", function(){ goTo(idx, true); }); })(i);
+}
+
+function tryUnlock(){
+  var val = document.getElementById('lock-input').value.trim();
+  var err = document.getElementById('lock-err');
+  if (val === OPS_CODE){
+    opsUnlocked = true;
+    document.getElementById('ops-lock').style.display = 'none';
+    document.getElementById('ops-unlocked').style.display = 'block';
+    document.getElementById('ops-lock-ico').style.display = 'none';
+    err.textContent = '';
+  } else {
+    err.textContent = 'Incorrect code';
+    document.getElementById('lock-input').value = '';
   }
-})();
+}
+
+function openInfo(){ document.getElementById('info-overlay').classList.add('show'); }
+function closeInfo(){ document.getElementById('info-overlay').classList.remove('show'); }
+document.getElementById('info-overlay').addEventListener('click', function(e){
+  if (e.target === this) closeInfo();
+});
 
 /* FIREBASE NOTICES */
 (async function(){
