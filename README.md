@@ -36,6 +36,10 @@ Intubation (live) · Advanced Airway · Drip Sets · Medication List · Shock ·
 
 ## Changelog
 
+### v1.8
+- Added a line to the info panel: apps open in a Safari window; for full-screen, add them to the home screen individually
+- jsdom smoke test: 5/5 pass
+
 ### v1.7
 - Notice banner: smaller (38px), white centered text, tap it to expand the full notice in a popup
 - Info panel now reads "contact Doug" and the email opens with subject line "NCEMS HUB APP"
