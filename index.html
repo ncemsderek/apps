@@ -10,6 +10,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NCEMS">
 <meta name="theme-color" content="#1C3A1C">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
 <title>NCEMS Field Reference</title>
 <style>
   :root {
@@ -17,17 +19,12 @@
     --g-mid:    #2E6B2E;
     --g-accent: #3A8A3A;
     --g-pale:   #EBF5EB;
-<<<<<<< HEAD
-=======
-    --g-card:   #f4faf4;
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
     --warn:     #B87E0A;
     --bad:      #C13E3E;
     --ink:      #152210;
     --ink-soft: #4a5e42;
     --white:    #ffffff;
     --soon-bg:  #f0f0ee;
-<<<<<<< HEAD
     --soon-ink: #999;
     --banner-h: 52px;
     --hdr-h:    72px;
@@ -36,24 +33,13 @@
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
   html, body {
     height: 100%; width: 100%; overflow: hidden;
-=======
-    --soon-ink: #888;
-    --banner-h: 52px;
-  }
-
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-
-  html, body {
-    height: 100%;
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
     background: var(--g-deep);
     color: var(--ink);
     overscroll-behavior: none;
   }
 
-<<<<<<< HEAD
-  /* ── HEADER ── */
+  /* HEADER */
   .hdr {
     position: fixed; top: 0; left: 0; right: 0;
     height: calc(var(--hdr-h) + env(safe-area-inset-top));
@@ -61,21 +47,20 @@
     background: linear-gradient(135deg, var(--g-deep) 0%, var(--g-mid) 100%);
     color: var(--white);
     display: flex; align-items: center; gap: 12px;
-    padding-left: 16px; padding-right: 16px;
+    padding-left: 14px; padding-right: 16px;
     z-index: 30;
     box-shadow: 0 2px 12px rgba(0,0,0,.3);
   }
-  .hdr-icon {
-    width: 44px; height: 44px;
-    background: rgba(255,255,255,.15);
-    border-radius: 11px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px; flex-shrink: 0;
+  .hdr-logo {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--white);
+    object-fit: cover; flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.3);
   }
   .hdr-text h1 { font-size: 18px; font-weight: 700; }
   .hdr-text p  { font-size: 11px; opacity: .7; margin-top: 1px; }
 
-  /* ── PAGE DOTS ── */
+  /* PAGE DOTS */
   .dots {
     position: fixed;
     top: calc(var(--hdr-h) + env(safe-area-inset-top));
@@ -85,14 +70,11 @@
     background: #e8ede8;
     z-index: 29;
   }
-  .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #bbb;
-    transition: background .2s, transform .2s;
-  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #bbb;
+         transition: background .2s, transform .2s; }
   .dot.active { background: var(--g-accent); transform: scale(1.3); }
 
-  /* ── SWIPE CONTAINER ── */
+  /* SWIPE */
   .pages-wrap {
     position: fixed;
     top: calc(var(--hdr-h) + var(--dots-h) + env(safe-area-inset-top));
@@ -101,21 +83,16 @@
     overflow: hidden;
   }
   .pages {
-    display: flex;
-    width: 200%;
-    height: 100%;
+    display: flex; width: 200%; height: 100%;
     transition: transform .35s cubic-bezier(.4,0,.2,1);
     will-change: transform;
   }
   .page {
-    width: 50%;
-    height: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    width: 50%; height: 100%;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
     background: #f0f4f0;
   }
 
-  /* ── SECTION LABEL ── */
   .section-label {
     font-size: 10px; font-weight: 700;
     letter-spacing: 1.4px; text-transform: uppercase;
@@ -123,9 +100,8 @@
     padding: 14px 16px 5px;
   }
 
-  /* ── CLINICAL CARDS (big word, full width) ── */
+  /* CLINICAL CARDS — big word, full width */
   .clin-list { padding: 0 12px 8px; display: flex; flex-direction: column; gap: 8px; }
-
   .clin-card {
     display: flex; align-items: center;
     background: var(--white);
@@ -136,17 +112,10 @@
     text-decoration: none;
     box-shadow: 0 2px 8px rgba(0,0,0,.07);
     transition: transform .07s ease, box-shadow .07s ease;
-    cursor: pointer;
     overflow: hidden;
-    position: relative;
   }
   .clin-card:active { transform: scale(.978); box-shadow: 0 1px 4px rgba(0,0,0,.1); }
-  .clin-card.soon {
-    border-left-color: #ccc;
-    background: var(--soon-bg);
-    cursor: default;
-  }
-
+  .clin-card.soon { border-left-color: #ccc; background: var(--soon-bg); }
   .clin-word {
     font-family: "SF Mono", "Fira Mono", "Courier New", monospace;
     font-size: clamp(22px, 5.5vw, 34px);
@@ -154,213 +123,63 @@
     letter-spacing: -.5px;
     text-transform: uppercase;
     color: var(--g-deep);
-    line-height: 1;
-    flex: 1;
+    line-height: 1; flex: 1;
   }
   .clin-card.soon .clin-word { color: var(--soon-ink); }
-
   .soon-pill {
     font-size: 9px; font-weight: 700; letter-spacing: .8px;
     text-transform: uppercase;
     background: #ddd; color: #999;
-    border-radius: 5px; padding: 3px 7px;
-    flex-shrink: 0;
+    border-radius: 5px; padding: 3px 7px; flex-shrink: 0;
   }
-  .clin-chev {
-    color: var(--g-accent); font-size: 22px; font-weight: 700;
-    flex-shrink: 0; margin-left: 8px;
-  }
+  .clin-chev { color: var(--g-accent); font-size: 22px; font-weight: 700;
+               flex-shrink: 0; margin-left: 8px; }
 
-  /* ── OPS GRID (page 2) ── */
-=======
-  /* ── LAYOUT ── */
-  .app {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    padding-bottom: calc(var(--banner-h) + env(safe-area-inset-bottom));
-  }
-
-  /* ── HEADER ── */
-  .hdr {
-    background: linear-gradient(135deg, var(--g-deep) 0%, var(--g-mid) 100%);
-    color: var(--white);
-    padding: 20px 20px 16px;
-    padding-top: calc(20px + env(safe-area-inset-top));
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    box-shadow: 0 2px 12px rgba(0,0,0,.3);
-  }
-  .hdr-icon {
-    width: 48px; height: 48px;
-    background: rgba(255,255,255,.15);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px; flex-shrink: 0;
-  }
-  .hdr-text h1 { font-size: 20px; font-weight: 700; letter-spacing: .3px; }
-  .hdr-text p  { font-size: 12px; opacity: .75; margin-top: 1px; }
-
-  /* ── SCROLL BODY ── */
-  .body {
-    flex: 1;
-    background: #f2f5f1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* ── SECTION LABELS ── */
-  .section-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--g-mid);
-    padding: 18px 16px 6px;
-  }
-
-  /* ── GRID ── */
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    padding: 0 12px 4px;
-  }
+  /* OPS GRID — page 2 */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 12px 4px; }
   .grid.single { grid-template-columns: 1fr; }
-
-<<<<<<< HEAD
-=======
-  /* ── CARD ── */
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
   .card {
-    background: var(--white);
-    border-radius: 14px;
+    background: var(--white); border-radius: 14px;
     padding: 16px 14px;
-<<<<<<< HEAD
-    display: flex; flex-direction: column; gap: 6px;
+    display: flex; flex-direction: column; gap: 4px;
     text-decoration: none; color: var(--ink);
-=======
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    text-decoration: none;
-    color: var(--ink);
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
     box-shadow: 0 2px 8px rgba(0,0,0,.08);
     border-left: 5px solid var(--g-accent);
-    min-height: 90px;
+    min-height: 84px;
     transition: transform .08s ease, box-shadow .08s ease;
-<<<<<<< HEAD
   }
   .card:active { transform: scale(.975); box-shadow: 0 1px 4px rgba(0,0,0,.1); }
-  .card-ico  { font-size: 26px; }
   .card-name { font-size: 15px; font-weight: 700; color: var(--g-deep); line-height: 1.2; }
   .card-desc { font-size: 11px; color: var(--ink-soft); line-height: 1.3; }
-
   .card.wambo {
     border-left-color: var(--g-mid);
     background: var(--g-pale);
     flex-direction: row; align-items: center; gap: 14px;
     min-height: auto; padding: 16px;
   }
-  .card.wambo .card-ico { font-size: 30px; }
   .card.wambo .card-name { font-size: 16px; }
   .wambo-body { flex: 1; }
   .wambo-chev { color: var(--g-accent); font-size: 20px; font-weight: 700; }
 
-  /* ── NOTICE BANNER ── */
+  /* NOTICE BANNER */
   .notice-bar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
+    position: fixed; bottom: 0; left: 0; right: 0;
     height: calc(var(--banner-h) + env(safe-area-inset-bottom));
     padding-bottom: env(safe-area-inset-bottom);
-    background: var(--g-deep);
-    color: var(--white);
+    background: var(--g-deep); color: var(--white);
     display: flex; align-items: center; gap: 10px;
     padding-left: 14px; padding-right: 14px;
     z-index: 30;
-=======
-    cursor: pointer;
-  }
-  .card:active { transform: scale(.975); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
-
-  .card.soon {
-    border-left-color: #ccc;
-    background: var(--soon-bg);
-    cursor: default;
-    opacity: .7;
-  }
-  .card.warn-card { border-left-color: var(--warn); }
-
-  .card-ico  { font-size: 28px; line-height: 1; }
-  .card-name { font-size: 15px; font-weight: 700; color: var(--g-deep); line-height: 1.2; }
-  .card.soon .card-name { color: var(--soon-ink); }
-  .card-desc { font-size: 11px; color: var(--ink-soft); line-height: 1.3; }
-  .card.soon .card-desc { color: #aaa; }
-
-  .soon-badge {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: .8px;
-    text-transform: uppercase;
-    background: #ddd;
-    color: #888;
-    border-radius: 4px;
-    padding: 2px 5px;
-    margin-top: 2px;
-    width: fit-content;
-  }
-
-  /* ── WAMBO (bottom, full width, distinct) ── */
-  .card.wambo {
-    border-left-color: var(--g-mid);
-    background: var(--g-pale);
-    flex-direction: row;
-    align-items: center;
-    gap: 14px;
-    min-height: auto;
-    padding: 14px 16px;
-  }
-  .card.wambo .card-ico { font-size: 32px; }
-  .card.wambo .card-name { font-size: 16px; color: var(--g-deep); }
-  .wambo-body { flex: 1; }
-
-  /* ── BOTTOM NOTICE BANNER ── */
-  .notice-bar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    height: var(--banner-h);
-    padding-bottom: env(safe-area-inset-bottom);
-    background: var(--g-deep);
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding-left: 14px;
-    padding-right: 14px;
-    z-index: 20;
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
     box-shadow: 0 -2px 10px rgba(0,0,0,.25);
   }
-  .notice-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-<<<<<<< HEAD
-    background: var(--g-accent); flex-shrink: 0;
-    animation: pulse 2.5s ease-in-out infinite;
-  }
+  .notice-dot { width: 8px; height: 8px; border-radius: 50%;
+                background: var(--g-accent); flex-shrink: 0;
+                animation: pulse 2.5s ease-in-out infinite; }
   .notice-dot.warn { background: var(--warn); }
   .notice-dot.off  { background: #444; animation: none; }
-  @keyframes pulse {
-    0%,100%{ opacity:1; transform:scale(1); }
-    50%    { opacity:.4; transform:scale(.65); }
-  }
-  .notice-text { flex:1; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:.9; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.65);} }
+  .notice-text { flex:1; font-size:13px; white-space:nowrap; overflow:hidden;
+                 text-overflow:ellipsis; opacity:.9; }
   .notice-text.dim { opacity:.35; font-style:italic; }
   .notice-time { font-size:10px; opacity:.45; flex-shrink:0; }
 
@@ -369,352 +188,149 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="hdr">
-  <div class="hdr-icon">🚑</div>
+  <img class="hdr-logo" src="logo.png" alt="NCEMS">
   <div class="hdr-text">
     <h1>NCEMS Field Reference</h1>
-    <p>North Country EMS · Clark Fire District 13</p>
-=======
-    background: var(--g-accent);
-    flex-shrink: 0;
-    animation: pulse 2.5s ease-in-out infinite;
-  }
-  .notice-dot.warn { background: var(--warn); }
-  .notice-dot.off  { background: #555; animation: none; }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: .5; transform: scale(.7); }
-  }
-
-  .notice-text {
-    flex: 1;
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    opacity: .9;
-  }
-  .notice-text.dim { opacity: .4; font-style: italic; }
-
-  .notice-time {
-    font-size: 10px;
-    opacity: .5;
-    flex-shrink: 0;
-  }
-
-  /* ── SPACER at bottom of list ── */
-  .bottom-pad { height: 8px; }
-</style>
-</head>
-<body>
-<div class="app">
-
-  <!-- HEADER -->
-  <header class="hdr">
-    <div class="hdr-icon">🚑</div>
-    <div class="hdr-text">
-      <h1>NCEMS Field Reference</h1>
-      <p>North Country EMS · Clark Fire District 13</p>
-    </div>
-  </header>
-
-  <!-- SCROLL BODY -->
-  <main class="body">
-
-    <!-- CLINICAL REFERENCE -->
-    <div class="section-label">Clinical Reference</div>
-    <div class="grid">
-
-      <a class="card" href="https://ncemsderek.github.io/Intubation/">
-        <div class="card-ico">🫁</div>
-        <div class="card-name">Intubation Guide</div>
-        <div class="card-desc">RSI drugs, dosing & airway math</div>
-      </a>
-
-      <div class="card soon">
-        <div class="card-ico">🌬️</div>
-        <div class="card-name">Advanced Airway</div>
-        <div class="card-desc">Surgical airway, CPAP, video laryngoscopy</div>
-        <span class="soon-badge">Coming Soon</span>
-      </div>
-
-      <div class="card soon">
-        <div class="card-ico">💉</div>
-        <div class="card-name">Med Drip Sets</div>
-        <div class="card-desc">Quick IV drip rate reference</div>
-        <span class="soon-badge">Coming Soon</span>
-      </div>
-
-      <div class="card soon">
-        <div class="card-ico">🩸</div>
-        <div class="card-name">Shock</div>
-        <div class="card-desc">Hypovolemic, obstructive, distributive</div>
-        <span class="soon-badge">Coming Soon</span>
-      </div>
-
-      <div class="card soon">
-        <div class="card-ico">🌡️</div>
-        <div class="card-name">Sepsis</div>
-        <div class="card-desc">qSOFA, early recognition & treatment</div>
-        <span class="soon-badge">Coming Soon</span>
-      </div>
-
-      <div class="card soon">
-        <div class="card-ico">🧠</div>
-        <div class="card-name">Stroke</div>
-        <div class="card-desc">FAST, CPSS, LVO screen & transport</div>
-        <span class="soon-badge">Coming Soon</span>
-      </div>
-
-      <div class="card soon">
-        <div class="card-ico">💊</div>
-        <div class="card-name">Med List</div>
-        <div class="card-desc">Field drug quick reference</div>
-        <span class="soon-badge">Coming Soon</span>
-      </div>
-
-      <div class="card soon">
-        <div class="card-ico">❤️</div>
-        <div class="card-name">Cardiac</div>
-        <div class="card-desc">STEMI, rhythms, ACLS drugs</div>
-        <span class="soon-badge">Coming Soon</span>
-      </div>
-
-    </div>
-
-    <!-- PROTOCOLS -->
-    <div class="section-label">Protocols</div>
-    <div class="grid single">
-      <a class="card" href="https://ncemsderek.github.io/Protocols/protocol-app.html">
-        <div class="card-ico">📋</div>
-        <div class="card-name">Clark County Protocols</div>
-        <div class="card-desc">2026 EMS patient care protocols — full reference</div>
-      </a>
-    </div>
-
-    <!-- OPERATIONS -->
-    <div class="section-label">Operations</div>
-    <div class="grid">
-      <a class="card" href="https://ncemsderek.github.io/onduty-incident-report/">
-        <div class="card-ico">📝</div>
-        <div class="card-name">Incident Report</div>
-        <div class="card-desc">File on-duty incident reports</div>
-      </a>
-      <a class="card" href="https://ncemsderek.github.io/ncems-ot/">
-        <div class="card-ico">🕐</div>
-        <div class="card-name">NCEMS OT</div>
-        <div class="card-desc">Overtime sign-up & scheduling</div>
-      </a>
-    </div>
-
-    <!-- APPARATUS -->
-    <div class="section-label">Apparatus</div>
-    <div class="grid single">
-      <a class="card wambo" href="https://ncemsderek.github.io/WAMBOchecker/">
-        <div class="card-ico">🚐</div>
-        <div class="wambo-body">
-          <div class="card-name">WAMBOchecker</div>
-          <div class="card-desc">Daily apparatus checks — M25A · M25B · M19 · M18 · M14</div>
-        </div>
-        <div style="color:var(--g-accent);font-size:20px;font-weight:700;">›</div>
-      </a>
-    </div>
-
-    <div class="bottom-pad"></div>
-  </main>
-
-  <!-- NOTICE BANNER (bottom) -->
-  <div class="notice-bar" id="noticebar">
-    <div class="notice-dot off" id="noticedot"></div>
-    <div class="notice-text dim" id="noticetext">No active notices</div>
-    <div class="notice-time" id="noticetime"></div>
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
+    <p>North Country EMS &middot; Clark Fire District 13</p>
   </div>
 </header>
 
-<!-- PAGE DOTS -->
 <div class="dots">
   <div class="dot active" id="dot0"></div>
-  <div class="dot"        id="dot1"></div>
+  <div class="dot" id="dot1"></div>
 </div>
 
-<!-- SWIPE PAGES -->
 <div class="pages-wrap" id="pageswrap">
   <div class="pages" id="pages">
 
     <!-- PAGE 1: CLINICAL -->
     <div class="page" id="page0">
-
       <div class="section-label">Clinical Reference</div>
       <div class="clin-list">
-
         <a class="clin-card" href="https://ncemsderek.github.io/Intubation/">
-          <span class="clin-word">Intubation</span>
-          <span class="clin-chev">›</span>
+          <span class="clin-word">Intubation</span><span class="clin-chev">&rsaquo;</span>
         </a>
-
         <div class="clin-card soon">
-          <span class="clin-word">Advanced Airway</span>
-          <span class="soon-pill">Soon</span>
+          <span class="clin-word">Advanced Airway</span><span class="soon-pill">Soon</span>
         </div>
-
         <div class="clin-card soon">
-          <span class="clin-word">Drip Sets</span>
-          <span class="soon-pill">Soon</span>
+          <span class="clin-word">Drip Sets</span><span class="soon-pill">Soon</span>
         </div>
-
         <div class="clin-card soon">
-          <span class="clin-word">Medication List</span>
-          <span class="soon-pill">Soon</span>
+          <span class="clin-word">Medication List</span><span class="soon-pill">Soon</span>
         </div>
-
         <div class="clin-card soon">
-          <span class="clin-word">Shock</span>
-          <span class="soon-pill">Soon</span>
+          <span class="clin-word">Shock</span><span class="soon-pill">Soon</span>
         </div>
-
         <div class="clin-card soon">
-          <span class="clin-word">Sepsis</span>
-          <span class="soon-pill">Soon</span>
+          <span class="clin-word">Sepsis</span><span class="soon-pill">Soon</span>
         </div>
-
         <div class="clin-card soon">
-          <span class="clin-word">Stroke</span>
-          <span class="soon-pill">Soon</span>
+          <span class="clin-word">Stroke</span><span class="soon-pill">Soon</span>
         </div>
-
         <div class="clin-card soon">
-          <span class="clin-word">Cardiac</span>
-          <span class="soon-pill">Soon</span>
+          <span class="clin-word">Cardiac</span><span class="soon-pill">Soon</span>
         </div>
-
       </div>
 
       <div class="section-label">Protocols</div>
       <div class="clin-list">
-
         <a class="clin-card" href="https://ncemsderek.github.io/Protocols/protocol-app.html">
-          <span class="clin-word">Quick Protocols</span>
-          <span class="clin-chev">›</span>
+          <span class="clin-word">Quick Protocols</span><span class="clin-chev">&rsaquo;</span>
         </a>
-
       </div>
-
       <div class="bottom-pad"></div>
     </div>
 
     <!-- PAGE 2: OPS + APPARATUS -->
     <div class="page" id="page1">
-
       <div class="section-label">Operations</div>
       <div class="grid">
         <a class="card" href="https://ncemsderek.github.io/onduty-incident-report/">
-          <div class="card-ico">📝</div>
           <div class="card-name">Incident Report</div>
           <div class="card-desc">File on-duty incident reports</div>
         </a>
         <a class="card" href="https://ncemsderek.github.io/ncems-ot/">
-          <div class="card-ico">🕐</div>
           <div class="card-name">NCEMS OT</div>
-          <div class="card-desc">Overtime sign-up & scheduling</div>
+          <div class="card-desc">Overtime sign-up &amp; scheduling</div>
         </a>
       </div>
 
       <div class="section-label">Apparatus</div>
       <div class="grid single">
         <a class="card wambo" href="https://ncemsderek.github.io/WAMBOchecker/">
-          <div class="card-ico">🚐</div>
           <div class="wambo-body">
             <div class="card-name">WAMBOchecker</div>
-            <div class="card-desc">Daily apparatus checks · M25A · M25B · M19 · M18 · M14</div>
+            <div class="card-desc">Daily apparatus checks &middot; M25A &middot; M25B &middot; M19 &middot; M18 &middot; M14</div>
           </div>
-          <div class="wambo-chev">›</div>
+          <div class="wambo-chev">&rsaquo;</div>
         </a>
       </div>
-
       <div class="bottom-pad"></div>
     </div>
 
-  </div><!-- /pages -->
-</div><!-- /pages-wrap -->
+  </div>
+</div>
 
-<!-- NOTICE BANNER -->
 <div class="notice-bar">
   <div class="notice-dot off" id="noticedot"></div>
   <div class="notice-text dim" id="noticetext">No active notices</div>
   <div class="notice-time" id="noticetime"></div>
 </div>
 
-<<<<<<< HEAD
 <script>
-/* ── SWIPE ── */
+/* SWIPE */
 (function(){
-  const pages   = document.getElementById("pages");
-  const wrap    = document.getElementById("pageswrap");
-  const dots    = [document.getElementById("dot0"), document.getElementById("dot1")];
-  const PAGE_W  = () => wrap.offsetWidth;
-  let cur = 0, startX = 0, startY = 0, dx = 0, dragging = false, lockAxis = null;
+  var pages = document.getElementById("pages");
+  var wrap  = document.getElementById("pageswrap");
+  var dots  = [document.getElementById("dot0"), document.getElementById("dot1")];
+  function pageW(){ return wrap.offsetWidth; }
+  var cur = 0, startX = 0, startY = 0, dx = 0, dragging = false, lockAxis = null;
 
   function goTo(n, animate){
     cur = Math.max(0, Math.min(1, n));
     pages.style.transition = animate ? "transform .35s cubic-bezier(.4,0,.2,1)" : "none";
-    pages.style.transform  = `translateX(-${cur * 50}%)`;
-    dots.forEach((d,i) => d.classList.toggle("active", i === cur));
+    pages.style.transform  = "translateX(-" + (cur * 50) + "%)";
+    for (var i=0;i<dots.length;i++){ dots[i].classList.toggle("active", i === cur); }
   }
 
-  wrap.addEventListener("touchstart", e => {
-    const t = e.touches[0];
+  wrap.addEventListener("touchstart", function(e){
+    var t = e.touches[0];
     startX = t.clientX; startY = t.clientY;
     dx = 0; lockAxis = null; dragging = true;
     pages.style.transition = "none";
   }, {passive:true});
 
-  wrap.addEventListener("touchmove", e => {
+  wrap.addEventListener("touchmove", function(e){
     if (!dragging) return;
-    const t  = e.touches[0];
-    const mx = t.clientX - startX;
-    const my = t.clientY - startY;
-    if (!lockAxis) {
-      lockAxis = Math.abs(mx) > Math.abs(my) ? "x" : "y";
-    }
+    var t = e.touches[0];
+    var mx = t.clientX - startX, my = t.clientY - startY;
+    if (!lockAxis) lockAxis = Math.abs(mx) > Math.abs(my) ? "x" : "y";
     if (lockAxis === "y") return;
     e.preventDefault();
     dx = mx;
-    const base = cur * PAGE_W();
-    pages.style.transform = `translateX(${-(base - dx)}px)`;
+    var base = cur * pageW();
+    pages.style.transform = "translateX(" + (-(base - dx)) + "px)";
   }, {passive:false});
 
-  wrap.addEventListener("touchend", () => {
-    if (!dragging || lockAxis !== "x") { dragging = false; lockAxis = null; return; }
+  wrap.addEventListener("touchend", function(){
+    if (!dragging || lockAxis !== "x"){ dragging = false; lockAxis = null; return; }
     dragging = false; lockAxis = null;
-    if (dx < -50)      goTo(cur + 1, true);
-    else if (dx > 50)  goTo(cur - 1, true);
-    else               goTo(cur, true);
+    if (dx < -50) goTo(cur + 1, true);
+    else if (dx > 50) goTo(cur - 1, true);
+    else goTo(cur, true);
   });
 
-  /* dot taps */
-  dots.forEach((d,i) => d.addEventListener("click", () => goTo(i, true)));
+  for (var i=0;i<dots.length;i++){
+    (function(idx){ dots[idx].addEventListener("click", function(){ goTo(idx, true); }); })(i);
+  }
 })();
 
-/* ── FIREBASE NOTICES ── */
+/* FIREBASE NOTICES */
 (async function(){
-  const FIREBASE_READY = false;
-=======
-</div>
-
-<script type="module">
-  /* ============================================================
-     FIREBASE NOTICE LISTENER
-     Replace the firebaseConfig block with your real config
-     once Firebase is set up. Everything else is wired and ready.
-     ============================================================ */
-
-  const FIREBASE_READY = false; // flip to true once config is pasted in
-
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
-  const firebaseConfig = {
+  var FIREBASE_READY = false;
+  var firebaseConfig = {
     apiKey:            "PASTE_YOUR_KEY_HERE",
     authDomain:        "PASTE.firebaseapp.com",
     projectId:         "PASTE_PROJECT_ID",
@@ -722,69 +338,31 @@
     messagingSenderId: "PASTE_SENDER_ID",
     appId:             "PASTE_APP_ID"
   };
-
-<<<<<<< HEAD
   if (!FIREBASE_READY) return;
-
-  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-  const { getFirestore, doc, onSnapshot } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  const app = initializeApp(firebaseConfig);
-  const db  = getFirestore(app);
-
-  onSnapshot(doc(db, "notices", "active"), snap => {
-    const dot  = document.getElementById("noticedot");
-    const txt  = document.getElementById("noticetext");
-    const time = document.getElementById("noticetime");
-    if (snap.exists() && snap.data().message?.trim()) {
-      const d = snap.data();
-      dot.className  = "notice-dot" + (d.urgent ? " warn" : "");
-      txt.className  = "notice-text";
+  var fb = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+  var fs = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  var db = fs.getFirestore(fb.initializeApp(firebaseConfig));
+  fs.onSnapshot(fs.doc(db, "notices", "active"), function(snap){
+    var dot = document.getElementById("noticedot");
+    var txt = document.getElementById("noticetext");
+    var time = document.getElementById("noticetime");
+    if (snap.exists() && snap.data().message && snap.data().message.trim()) {
+      var d = snap.data();
+      dot.className = "notice-dot" + (d.urgent ? " warn" : "");
+      txt.className = "notice-text";
       txt.textContent = d.message;
-      if (d.timestamp?.toDate) {
-        const dt = d.timestamp.toDate();
+      if (d.timestamp && d.timestamp.toDate) {
+        var dt = d.timestamp.toDate();
         time.textContent = dt.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
       }
     } else {
-=======
-  if (FIREBASE_READY) {
-    const { initializeApp }     = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-    const { getFirestore, doc, onSnapshot } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-
-    const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
-
-    onSnapshot(doc(db, "notices", "active"), (snap) => {
-      const dot  = document.getElementById("noticedot");
-      const txt  = document.getElementById("noticetext");
-      const time = document.getElementById("noticetime");
-
-      if (snap.exists()) {
-        const d = snap.data();
-        if (d.message && d.message.trim()) {
-          dot.className  = "notice-dot" + (d.urgent ? " warn" : "");
-          txt.className  = "notice-text";
-          txt.textContent = d.message;
-          if (d.timestamp?.toDate) {
-            const dt = d.timestamp.toDate();
-            time.textContent = dt.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
-          }
-          return;
-        }
-      }
-      // No active notice
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
-      dot.className  = "notice-dot off";
-      txt.className  = "notice-text dim";
+      dot.className = "notice-dot off";
+      txt.className = "notice-text dim";
       txt.textContent = "No active notices";
       time.textContent = "";
-<<<<<<< HEAD
     }
   });
 })();
-=======
-    });
-  }
->>>>>>> 6d5ffdf88cd1a14bfdb604bc1cc0dbf48dbb67ad
 </script>
 </body>
 </html>
